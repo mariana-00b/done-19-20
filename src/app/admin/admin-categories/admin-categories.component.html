@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="content border rounded">
+        <div class="content__header p-4 pt-3 pb-3 bg-light">
+            <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-10 text-left d-flex align-items-center">
+                    <span>Categories</span>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-dark w-100" (click)="openModalWithInputs(add)">Add</button>
+                </div>
+            </div>
+        </div>
+        <div class="content__main border-top p-3">
+            <input type="text" class="form-control" placeholder="filter categories..." [(ngModel)]="field"
+                name="field" />
+            <hr />
+            <table class="table table-bordered">
+                <thead class="table-secondary">
+                    <tr>
+                        <th class="th-col-1">#</th>
+                        <th class="col">Name</th>
+                        <th class="col">Edit</th>
+                        <th class="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let category of adminCategories | search:field ; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <button type="button" class="btn btn-dark" (click)="openModalWithInputs(add, true)"
+                                (click)="saveCurrentCategory(category)">Edit</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-dark" (click)="openConfirmModal(confirmation)"
+                                (click)="saveCurrentCategory(category)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #add>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add category</h4>
+        <button type="button" class="close pull-right" (click)="closeModalWithInputs()">
+            <span>&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <input class="form-control" type="text" placeholder="name here..." [(ngModel)]="name" name="name"
+            (keyup)="checkEmptyField(name)" />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModalWithInputs()">Close</button>
+        <button type="button" class="btn btn-dark" *ngIf="isAddButton" (click)="addAdminCategory()"
+            [disabled]="isFieldEmpty">Add</button>
+        <button type="button" class="btn btn-dark" *ngIf="!isAddButton" (click)="editAdminCategory()">Save edit</button>
+    </div>
+</ng-template>
+
+<ng-template #confirmation>
+    <div class="modal-body p-3 d-flex justify-content-around">
+        <button type="button" class="btn btn-dark col-5" (click)="closeConfirmModal()">Dismiss</button>
+        <button type="button" class="btn btn-danger col-5" (click)="deleteAdminCategory(categoryID)"
+            (click)="closeConfirmModal()">Delete</button>
+    </div>
+</ng-template>

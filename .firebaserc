@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "pizza-196b2": {
+      "hosting": {
+        "pizza": [
+          "pizza-196b2"
+        ]
+      }
+    }
+  }
+}
